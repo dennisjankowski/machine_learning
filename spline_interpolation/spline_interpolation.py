@@ -33,6 +33,9 @@ longitude_list = list(map(float, longitude_list_s))
 coordinates_list = list(zip(timestamp_list, latitude_list, longitude_list))
 coordinates_list = list(set(coordinates_list))
 
+print(len(coordinates_list))
+
+
 # copy the coordinates list and remove x percent of entries
 coordinates_list_less = coordinates_list[:]
 
@@ -52,10 +55,23 @@ plt.plot(x_i, y_i, color='red', label='all points')
 # -----------------------------------------------------------------------------
 
 # copy the coordinates list and remove x percent of entries
-remove_random_entries(coordinates_list_less, 0.97)
-
+remove_random_entries(coordinates_list_less, 0.80)
 coordinates_list_less.sort()
-coordinates_list_less = list(zip(*coordinates_list_less))
+
+print(len(coordinates_list_less))
+
+coordinates_list_gap = []
+for j in range(len(coordinates_list_less)):
+    if not 40 < j < 140:
+        coordinates_list_gap.append(coordinates_list_less[j])
+
+print(len(coordinates_list_gap))
+
+
+# coordinates_list_less = list(zip(*coordinates_list_less))
+coordinates_list_gap = list(zip(*coordinates_list_gap))
+
+coordinates_list_less = coordinates_list_gap
 
 timestamp_list_less = coordinates_list_less[0]
 latitude_list_less = coordinates_list_less[1]
@@ -67,6 +83,8 @@ x_i_2, y_i_2 = interpolate.splev(np.linspace(0, 1, 100), tck)
 
 plt.plot(x_i_2, y_i_2, color='blue', label='less points')
 
+# 80% less points than the original data, and a 31% data gap (60 and 120)
+# 80% less points than the original data, and a 52% data gap (40 and 140)
 
 plt.legend()
 plt.show()
