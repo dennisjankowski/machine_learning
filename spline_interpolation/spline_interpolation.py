@@ -12,7 +12,7 @@ def remove_random_entries(l, n):
     return l
 
 
-csv_file = csv.DictReader(open(file='trajectory.csv'))
+csv_file = csv.DictReader(open(file='../resources/trajectory.csv'))
 timestamp_list_s = []
 latitude_list_s = []
 longitude_list_s = []
@@ -50,19 +50,19 @@ longitude_list = coordinates_list[2]
 # plt.scatter(longitude_list, latitude_list, color='blue', label='given')
 tck, u = interpolate.splprep([longitude_list, latitude_list], s=0.0)
 x_i, y_i = interpolate.splev(np.linspace(0, 1, 100), tck)
-plt.plot(x_i, y_i, color='red', label='all points')
+# plt.plot(x_i, y_i, color='red', label='all points')
 
 # -----------------------------------------------------------------------------
 
 # copy the coordinates list and remove x percent of entries
-remove_random_entries(coordinates_list_less, 0.80)
+remove_random_entries(coordinates_list_less, 0.90)
 coordinates_list_less.sort()
 
 print(len(coordinates_list_less))
 
 coordinates_list_gap = []
 for j in range(len(coordinates_list_less)):
-    if not 40 < j < 140:
+    if not 75 < j < 100:
         coordinates_list_gap.append(coordinates_list_less[j])
 
 print(len(coordinates_list_gap))
@@ -77,11 +77,11 @@ timestamp_list_less = coordinates_list_less[0]
 latitude_list_less = coordinates_list_less[1]
 longitude_list_less = coordinates_list_less[2]
 
-plt.scatter(longitude_list_less, latitude_list_less, color='green', label='given')
+plt.scatter(longitude_list_less, latitude_list_less, color='green', label='discrete data')
 tck, u = interpolate.splprep([longitude_list_less, latitude_list_less], s=0.0)
 x_i_2, y_i_2 = interpolate.splev(np.linspace(0, 1, 100), tck)
 
-plt.plot(x_i_2, y_i_2, color='blue', label='less points')
+plt.plot(x_i_2, y_i_2, color='blue', label='approximated continues data')
 
 # 80% less points than the original data, and a 31% data gap (60 and 120)
 # 80% less points than the original data, and a 52% data gap (40 and 140)
