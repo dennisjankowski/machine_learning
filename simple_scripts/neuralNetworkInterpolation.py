@@ -17,9 +17,11 @@ This NN learns simple relationships between two series of numbers.
 '''
 
 model = keras.Sequential()
-model.add(keras.layers.Dense(units=5000, input_shape=[1]))
-model.add(keras.layers.Dense(units=10000, input_shape=[5000]))
-model.add(keras.layers.Dense(units=15000, input_shape=[10000]))
+model.add(keras.layers.Dense(units=10000, input_shape=[1]))
+model.add(keras.layers.Dense(units=5000, input_shape=[10000]))
+model.add(keras.layers.Dense(units=3000, input_shape=[5000]))
+
+#model.add(keras.layers.Dense(units=2000, input_shape=[3000]))
 #model.add(keras.layers.Dense(units=2000, input_shape=[5000], activation=keras.activations.softmax))
 
 model.compile(optimizer='sgd', loss='mean_squared_error')
@@ -60,12 +62,12 @@ longitude_list = coordinates_list[2]
 xs = latitude_list
 ys = longitude_list
 
-model.fit(xs, ys, epochs=20)
+model.fit(xs, ys, epochs=1000)
 
 to_predict_0 = 53.88
 result_0 = model.predict([to_predict_0])
 print(result_0)
-rounded_result_0 = np.round(result_0[0][0], 2)
+rounded_result_0 = np.round(result_0[0][2000], 2)
 
 print(50 * '-')
 print(rounded_result_0)

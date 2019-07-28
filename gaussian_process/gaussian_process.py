@@ -1,4 +1,5 @@
 import csv
+import random
 
 import dateutil
 
@@ -15,7 +16,10 @@ from matplotlib import pyplot as plt
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import RBF, ConstantKernel as C
 
-
+def remove_random_entries(l, n):
+    for _ in range(int(len(l) * n)):
+        l.pop(random.randrange(0, len(l)))
+    return l
 # ----------------------------------------------------------------------
 csv_file = csv.DictReader(open(file='../resources/trajectory.csv'))
 timestamp_list_s = []
@@ -45,7 +49,9 @@ print(len(coordinates_list))
 coordinates_list_less = coordinates_list[:]
 
 # sort the lists by timestamps and unzip the triples into three seperate lists
+coordinates_list = remove_random_entries(coordinates_list, 0.9)
 coordinates_list.sort()
+coordinates_list = coordinates_list[-50:]
 coordinates_list = list(zip(*coordinates_list))
 
 timestamp_list = coordinates_list[0]
@@ -70,7 +76,6 @@ y_pred, sigma = gp.predict(latitude_list, return_std=True)
 # Plot the function, the prediction and the 95% confidence interval based on
 # the MSE
 plt.figure()
-plt.plot(latitude_list, longitude_list, 'r:', label=r'$f(x) = x\,\sin(x)$')
 plt.plot(latitude_list, longitude_list, 'r.', markersize=10, label='Observations')
 plt.plot(latitude_list, y_pred, 'b-', label='Prediction')
 
