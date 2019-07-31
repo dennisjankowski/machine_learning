@@ -55,7 +55,7 @@ x_i, y_i = interpolate.splev(np.linspace(0, 1, 100), tck)
 # -----------------------------------------------------------------------------
 
 # copy the coordinates list and remove x percent of entries
-remove_random_entries(coordinates_list_less, 0.90)
+remove_random_entries(coordinates_list_less, 0.99)
 coordinates_list_less.sort()
 
 print(len(coordinates_list_less))

@@ -2,6 +2,7 @@ import csv
 import random
 
 import dateutil
+from sklearn.preprocessing import MinMaxScaler
 from tensorflow import keras
 import numpy as np
 import matplotlib.pyplot as plt
@@ -11,6 +12,25 @@ def remove_random_entries(l, n):
     for _ in range(int(len(l) * n)):
         l.pop(random.randrange(0, len(l)))
     return l
+
+def normalize_data(series):
+    values = series.values
+    values = values.reshape((len(values), 1))
+    # train the normalization
+    scaler = MinMaxScaler(feature_range=(0, 1))
+    scaler = scaler.fit(values)
+    print('Min: %f, Max: %f' % (scaler.data_min_, scaler.data_max_))
+    # normalize the dataset and print the first 5 rows
+    normalized = scaler.transform(values)
+    for i in range(5):
+        print(normalized[i])
+    return normalized
+
+def denormalize_data(normalized_data):
+    scaler = MinMaxScaler(feature_range=(0, 1))
+    inversed = scaler.inverse_transform(normalized_data)
+    for i in range(5):
+        print(inversed[i])
 
 '''
 This NN learns simple relationships between two series of numbers. 
@@ -62,7 +82,7 @@ longitude_list = coordinates_list[2]
 xs = latitude_list
 ys = longitude_list
 
-model.fit(xs, ys, epochs=1000)
+model.fit(xs, ys, epochs=20)
 
 to_predict_0 = 53.88
 result_0 = model.predict([to_predict_0])

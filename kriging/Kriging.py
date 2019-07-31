@@ -4,6 +4,7 @@ import random
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 plt.style.use('ggplot')
 
 # Data taken from https://blog.dominodatalab.com/fitting-gaussian-process-models-python/
